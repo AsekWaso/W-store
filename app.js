@@ -30,18 +30,34 @@ mongoose.connect("mongodb://127.0.0.1:27017/Weppo-store", {
     .then(() => console.log("MongoDB connected"))
     .catch(err => console.log(err));
 
+
+const attachUserToRequest = (req, res, next) => {
+    if (req.session && req.session.user) {
+        req.user = req.session.user;
+    }
+    next();
+};
+
+app.use(attachUserToRequest);
 // Set up routes
 app.get("/", (req, res) => {
+    const { user } = req.session;
+    if (user) {
+        return res.redirect("/dashboard");
+    }
     res.render("index");
 });
 
 app.get("/signup", (req, res) => {
+    const { user } = req.session;
+    if (user) {
+        return res.redirect("/dashboard");
+    }
     res.render("signup");
 });
 
 app.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
-
     // Hash the password using bcrypt
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if (err) {
@@ -63,6 +79,10 @@ app.post("/signup", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
+    const { user } = req.session;
+    if (user) {
+        return res.redirect("/dashboard");
+    }
     res.render("login");
 });
 
