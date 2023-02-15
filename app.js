@@ -43,7 +43,7 @@ app.use(attachUserToRequest);
 app.get("/", (req, res) => {
     const { user } = req.session;
     if (user) {
-        return res.redirect("/dashboard");
+        return res.redirect("/index-user");
     }
     res.render("index");
 });
@@ -51,7 +51,7 @@ app.get("/", (req, res) => {
 app.get("/signup", (req, res) => {
     const { user } = req.session;
     if (user) {
-        return res.redirect("/dashboard");
+        return res.redirect("/index-user");
     }
     res.render("signup");
 });
@@ -81,7 +81,7 @@ app.post("/signup", (req, res) => {
 app.get("/login", (req, res) => {
     const { user } = req.session;
     if (user) {
-        return res.redirect("/dashboard");
+        return res.redirect("/index-user");
     }
     res.render("login");
 });
@@ -105,7 +105,7 @@ app.post("/login", (req, res) => {
 
                 if (result === true) {
                     req.session.user = user;
-                    return res.redirect("/dashboard");
+                    return res.redirect("/index-user");
                 }
 
                 res.redirect("/login");
@@ -114,12 +114,12 @@ app.post("/login", (req, res) => {
         .catch(err => console.log(err));
 });
 
-app.get("/dashboard", (req, res) => {
+app.get("/index-user", (req, res) => {
     const { user } = req.session;
     if (!user) {
         return res.redirect("/login");
     }
-    res.render("dashboard", { user });
+    res.render("index-user", { user });
 });
 
 app.get("/logout", (req, res) => {
