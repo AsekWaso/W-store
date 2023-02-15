@@ -1,2 +1,2 @@
 # W-store
-Online store
+npm run dev - launches application
