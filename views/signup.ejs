@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet", href="/stylesheets/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="login-header">Sign up</h1>
+        <form action="/signup" method="post">
+            <div class="input-field">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <br><br>
+            <div class="input-field">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <br><br>
+            <div class="input-field">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <br><br>
+            <input class="login-button" type="submit" value="Sign up">
+        </form>
+        <p>Already have an account? <a href="/login">Log in</a></p>
+    </div>
+</body>
+</html>
