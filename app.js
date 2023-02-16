@@ -6,7 +6,8 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const User = require("./models/user");
-
+const Product = require('./models/product');
+const Prods = require('./products.js');
 // Create an instance of express
 const app = express();
 app.use( express.static( "public" ) );
@@ -125,6 +126,15 @@ app.get("/index-user", (req, res) => {
 app.get("/logout", (req, res) => {
     req.session.destroy();
     res.redirect("/");
+});
+
+app.get("/product-list", (req, res) => {
+    res.render("product-list", {'products' : Prods.products});
+});
+
+app.get("/cart", (req, res) => {
+    const { user } = req.session;
+    res.render("cart", {'products' : Prods.products, user});
 });
 
 // Start the server

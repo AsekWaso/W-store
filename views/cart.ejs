@@ -1,73 +1,41 @@
-<%- include('header.ejs')%>
-
-    <body>
-            <!-- Page Content -->
-            <div class="container">
-                <div class="row">
-                        <div class="col-lg-9">
-                                <div class="row">
-                                    <div class="col-sm-12">
-
-                                        <% if (cart === null || cart.items.length == 0) {%>
-                                            <h2>No item in shopping Cart</h2>
-                                            <%} else {%>
-                                                <h2>Shopping Cart Detail</h2>
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Title</th>
-                                                            <th scope="col">Price</th>
-                                                            <th scope="col">Quantity</th>
-                                                            <th scope="col"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <% for(let i = 0; i < cart.items.length; i++){
-                                                            let eachItem = cart.items[i];  
-                                                        %>
-                                                            <tr>
-                                                                <th scope="row">
-                                                                    <%= i+1%>
-                                                                </th>
-                                                                <td>
-                                                                    <%= eachItem.productId.title%>
-                                                                </td>
-                                                                <td>
-                                                                    <%= eachItem.productId.price%>
-                                                                </td>
-                                                                <td>
-                                                                    <%= eachItem.qty%>
-                                                                </td>
-                                                                <td>
-                                                                    <form action="/delete-cart" method="POST">
-                                                                        <input type="hidden" name="prodId" value="<%= eachItem.productId._id%>">
-                                                                        <button type="submit" class="btn btn-primary">Delete</button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                            <%}%>
-                                                                <tr>
-                                                                    <td>Total Price: </td>
-                                                                    <td colspan="4">
-                                                                        <%= cart.totalPrice%>
-                                                                    </td>
-                                                                </tr>
-                                                    </tbody>
-                                                </table>
-                                                <%}%>
-
-                                                    <br>
-                                    </div>
-
-                                </div>
-                                <!-- /.row -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/stylesheets/cart.css"
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Shopping Cart</h1>
+        <div class="cart-items-container">
+            <% if (products.length === 0) { %>
+                <p>Your cart is empty.</p>
+            <% } else { %>
+                <% products.forEach(function(product) { %>
+                    <div class="cart-item">
+                        <div class="cart-item-image">
+                            <img src="<%= product.image %>" alt="<%= product.name %>">
                         </div>
-                        <!-- /.col-lg-9 -->
-                </div>
-                <!-- /.row -->
-
-            </div>
-            <!-- /.container -->
-
-    </body>
+                        <div class="cart-item-info">
+                            <h2><%= product.name %></h2>
+                            <p><strong>Price: </strong>$<%= product.price.toFixed(2) %></p>
+                            <p><strong>Quantity: </strong><%= product.quantity %></p>
+                            <form action="/cart/delete" method="post">
+                                <input type="hidden" name="productId" value="<%= product.name %>">
+                                <button class="delete-button" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+        <div class="cart-summary">
+            <h2>Cart Summary</h2>
+            <p><strong>Number of Items: </strong><%= 10 %></p>
+            <p><strong>Total Price: </strong>$<%= 420.00 %></p>
+            <a href="/checkout" class="checkout-button">Proceed to Checkout</a>
+        </div>
+    </div>
+</body>
+</html>
